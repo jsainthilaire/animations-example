@@ -3,8 +3,229 @@
 <head>
   <meta charset="UTF-8">
   <title>CSS Animations</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .page {
+      display: flex;
+      align-items: center;
+    }
+
+    .container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    .box {
+      background-color: red;
+      width: 100px;
+      height: 100px;
+      animation-name: boxSwallowedStick;
+      animation-timing-function: linear;
+      animation-delay: 0s;
+      animation-duration: 3s;
+      animation-iteration-count: 1;
+      animation-fill-mode: forwards;
+      animation-play-state: paused;
+    }
+
+    .destroy .box {
+      animation-play-state: running;
+    }
+
+    .particle {
+      position: relative;
+    }
+
+    .particle.left {
+      transform: translate(-25px) rotate(-90deg);
+    }
+
+    .particle.right {
+      transform: translate(25px) rotate(90deg);
+    }
+
+    .particle .stick {
+      animation-duration: 1.5s;
+      animation-delay: 0s;
+      animation-direction: normal;
+      animation-fill-mode: forwards;
+      animation-play-state: paused;
+    }
+
+    .particle.top .stick, .particle.left .stick, .particle.right .stick {
+      animation-name: destroyTop;
+    }
+
+    .particle.bottom .stick {
+      animation-name: destroyBottom;
+    }
+
+    .destroy .particle.top .stick, .destroy .particle.bottom .stick,
+    .destroy .particle.left .stick, .destroy .particle.right .stick {
+      animation-play-state: running;
+    }
+
+    .destroy .ball {
+      animation-play-state: running;
+    }
+
+    .particle.top .ball, .particle.left .ball, .particle.right .ball {
+      animation-name: destroyBottomBall;
+    }
+
+    .particle.bottom .ball {
+      animation-name: destroyTopBall;
+    }
+
+    .stick {
+      width: 20px;
+      height: 50px;
+      background-color: red;
+    }
+
+    .ball {
+      animation-duration: 1.5s;
+      animation-delay: 1.5s;
+      animation-timing-function: cubic-bezier(0.43,-0.36, 0.1, 1.5);
+      animation-play-state: paused;
+      animation-iteration-count: 1;
+      animation-direction: normal;
+      animation-fill-mode: forwards;
+      width: 20px;
+      height: 20px;
+      border-radius: 60px;
+      background-color: red;
+    }
+
+    .run-button {
+      background-color: #40d340;
+      border-radius: 20px;
+      margin-bottom: 20px;
+      animation: destroyButton 3s ease-in-out 0s;
+      animation-fill-mode: forwards;
+      animation-play-state: paused;
+    }
+
+    .destroy .run-button {
+      animation-play-state: running;
+    }
+
+    @keyframes destroyButton {
+      0% {
+        padding: 3;
+        opacity: 1;
+      }
+
+      90% {
+        padding: 8px;
+      }
+
+      100% {
+        opacity: 0;
+      }
+    }
+
+    @keyframes destroyTop {
+      0% {
+        transform: translateY(0);
+      }
+
+      100% {
+        transform: translateY(50px);
+      }
+    }
+
+    @keyframes destroyBottom {
+      0% {
+        transform: translateY(0);
+      }
+
+      100% {
+        transform: translateY(-50px);
+      }
+    }
+
+    @keyframes boxSwallowedStick {
+      0% {
+        width: 100px;
+        height: 100px;
+      }
+
+      100% {
+        width: 200px;
+        height: 200px;
+        border-radius: 0px;
+      }
+
+      100% {
+        width: 300px;
+        height: 300px;
+        border-radius: 150px;
+      }
+    }
+
+    @keyframes destroyTopBall {
+      from {
+        transform: translateY(0);
+      }
+
+      to {
+        transform: translateY(-70px);
+      }
+    }
+
+    @keyframes destroyBottomBall {
+      from {
+        transform: translateY(0);
+      }
+
+      to {
+        transform: translateY(70px);
+      }
+    }
+  </style>
 </head>
-<body>
+<body class="page">
   <h1>Animations Example</h1>
+  <button class="run-button">Run</button>
+  <div class="page">
+    <div class="particle left">
+      <div class="ball"></div>
+      <div class="stick"></div>
+    </div>
+    <div class="container">
+      <div class="particle top">
+        <div class="ball"></div>
+        <div class="stick"></div>
+      </div>
+      <div class="box-container">
+        <div class="box"></div>
+      </div>
+      <div class="particle bottom">
+        <div class="stick"></div>
+        <div class="ball"></div>
+      </div>
+    </div>
+    <div class="particle right">
+      <div class="ball"></div>
+      <div class="stick"></div>
+    </div>
+  </div>
+  <script>
+    var runButton = document.querySelector('.run-button');
+    var pageEl = document.querySelector('.page');
+
+    runButton.addEventListener('click', function () {
+      pageEl.classList.add("destroy");
+      body.classList.add("destroy");
+    });
+  </script>
 </body>
 </html>
